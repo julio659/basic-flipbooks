@@ -1,0 +1,26 @@
+{
+  "title": "Learning Academy Report Card - 2024",
+  "slug": "2024-report-card",
+  "createdAt": "2025-12-15T07:29:00.786Z",
+  "pageCount": 11,
+  "pages": [
+    "assets/pages/page-0001.webp",
+    "assets/pages/page-0002.webp",
+    "assets/pages/page-0003.webp",
+    "assets/pages/page-0004.webp",
+    "assets/pages/page-0005.webp",
+    "assets/pages/page-0006.webp",
+    "assets/pages/page-0007.webp",
+    "assets/pages/page-0008.webp",
+    "assets/pages/page-0009.webp",
+    "assets/pages/page-0010.webp",
+    "assets/pages/page-0011.webp"
+  ],
+  "originalPdf": "original.pdf",
+  "render": {
+    "dpi": 240,
+    "format": "webp",
+    "quality": 80,
+    "optimize": false
+  }
+}

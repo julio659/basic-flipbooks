@@ -1,0 +1,280 @@
+:root {
+  --bg: #0b0b0c;
+  --panel: #141418;
+  --text: #eaeaf0;
+  --muted: #b5b5c2;
+  --border: rgba(255, 255, 255, 0.12);
+  --btn: rgba(255, 255, 255, 0.08);
+  --btn-hover: rgba(255, 255, 255, 0.14);
+
+  /* desktop-ish top bar height */
+  --topbar-h: 56px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden !important; /* prevent scrollbars in the flipbook page + modal */
+}
+
+body {
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* Fill the available viewport/iframe height */
+.wrap {
+  height: 100vh;
+  overflow: hidden;
+  display: grid;
+  grid-template-rows: var(--topbar-h) 1fr; /* remove footer row */
+}
+
+/* Top bar */
+.topbar {
+  height: var(--topbar-h);
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+
+  background: rgba(20, 20, 24, 0.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border);
+}
+
+.title {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--text);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 55vw;
+}
+
+.controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn {
+  appearance: none;
+  border: 1px solid var(--border);
+  background: var(--btn);
+  color: var(--text);
+  padding: 6px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.btn:hover { background: var(--btn-hover); }
+.btn:focus { outline: 2px solid rgba(255, 255, 255, 0.35); outline-offset: 2px; }
+
+.btn.link {
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pager {
+  font-size: 13px;
+  color: var(--muted);
+  min-width: 78px;
+  text-align: center;
+}
+
+.sep { padding: 0 4px; opacity: 0.7; }
+
+/* Main stage fills remaining height */
+.stage {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - var(--topbar-h));
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* ✅ smaller margins around the book */
+  padding: 6px;
+
+  /* ✅ soften the “void” look (helps in embeds) */
+  background: rgba(11, 11, 12, 0.55);
+}
+
+/* Flipbook area */
+.book {
+  /* ✅ fill stage; less “black margin” */
+  width: 100%;
+  height: 100%;
+  margin: 0;
+
+  overflow: visible !important;
+
+  /* “Book-like” max size on desktop */
+  max-width: 1400px;
+  max-height: 900px;
+}
+
+/* Status overlay */
+.status {
+  position: absolute;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: rgba(20, 20, 24, 0.85);
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* Hide hint/footer completely */
+.hint { display: none !important; }
+
+/* ---------------- HTML-mode pages (works for .page or .flip-page) ---------------- */
+.page,
+.flip-page {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* ✅ avoid black flashes while decoding */
+  background: var(--bg);
+}
+
+.page img,
+.flip-page img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  user-select: none;
+  -webkit-user-drag: none;
+
+  /* ✅ small perf hint on mobile */
+  will-change: transform;
+}
+
+/* Invisible partner pages (kept for layout/physics) */
+.page.blank,
+.flip-page.blank {
+  background: var(--bg);
+}
+
+.page.blank img,
+.flip-page.blank img {
+  opacity: 0;
+}
+
+/* ✅ When on the cover spread (cover + hidden blank), shift book so cover looks centered */
+body.is-cover-spread .book {
+  transform: translateX(25%);
+}
+
+/* ---------------- Inside-cover / inside-back filler pages ---------------- */
+.page.filler {
+  background: #f7f7f7; /* light paper */
+}
+
+.inside-cover {
+  width: calc(100% - 40px);
+  height: calc(100% - 40px);
+  margin: 20px;              /* ✅ pulls border away from edges */
+
+  padding: 40px;
+
+  border: 4px solid rgba(0, 0, 0, 0.28); /* ✅ thicker + more visible */
+  border-radius: 10px;
+
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+}
+
+.inside-cover img {
+  width: min(70%, 520px);
+  height: auto;
+}
+
+.inside-cover-subtitle {
+  font-size: 20px;
+  font-weight: 600;
+  color: #555;
+  text-align: center;
+}
+
+/* -------------------- Mobile tweaks -------------------- */
+@media (max-width: 640px) {
+  :root { --topbar-h: 72px; } /* more room since it wraps */
+
+  /* Let the topbar be whatever height it needs on mobile */
+  .wrap {
+    grid-template-rows: auto 1fr;
+  }
+
+  /* Top bar wraps instead of squishing */
+  .topbar {
+    height: auto;
+    padding: 8px 10px;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  /* Title becomes its own row */
+  .title {
+    flex: 1 1 100%;
+    max-width: 100%;
+    font-size: 13px;
+  }
+
+  /* Controls wrap and spread out nicely */
+  .controls {
+    flex: 1 1 100%;
+    width: 100%;
+    justify-content: space-between;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    padding: 6px 10px;
+    border-radius: 10px;
+  }
+
+  .pager {
+    min-width: 0;
+    font-size: 12px;
+  }
+
+  /* Stop the calc-height logic on mobile; just fill the grid cell */
+  .stage {
+    height: 100%;
+    min-height: 0;
+    padding: 6px; /* slightly tighter */
+  }
+
+  /* Let the book fully fill the stage */
+  .book {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+
+    max-width: 100%;
+    max-height: none; /* don't hard cap on mobile */
+    min-height: 0;
+  }
+}

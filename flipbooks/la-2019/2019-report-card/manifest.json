@@ -1,0 +1,18 @@
+{
+  "title": "Learning Academy Report Card - 2019",
+  "slug": "2019-report-card",
+  "createdAt": "2025-12-15T07:24:11.055Z",
+  "pageCount": 3,
+  "pages": [
+    "assets/pages/page-0001.webp",
+    "assets/pages/page-0002.webp",
+    "assets/pages/page-0003.webp"
+  ],
+  "originalPdf": "original.pdf",
+  "render": {
+    "dpi": 240,
+    "format": "webp",
+    "quality": 80,
+    "optimize": false
+  }
+}
